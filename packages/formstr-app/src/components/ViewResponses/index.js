@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Button, Input, Form, Typography, Card, Select } from "antd";
 import { useEffect, useState } from "react";
 import {
@@ -10,7 +10,7 @@ import Analytics from "./Analytics";
 import { useParams } from "react-router";
 import Response from "./Responses";
 import { ResponseFilters } from "../../constants";
-import {Export} from "./Export";
+import { Export } from "./Export";
 
 const { Text } = Typography;
 
@@ -23,7 +23,7 @@ function ViewResponses() {
   const [defaultFilter, setDefaultFilter] = useState(
     ResponseFilters.allResponses
   );
-  const [formName, updateFormName] = React.useState('')
+  const [formName, updateFormName] = React.useState("");
 
   const { nsec } = useParams();
 
@@ -35,6 +35,7 @@ function ViewResponses() {
 
   async function getResponses(nsecInput) {
     let resp = await getFormResponses(nsecInput);
+    console.log("Responses", resp);
     let pubkeysList = resp.map((r) => {
       return r.pubkey;
     });
@@ -52,7 +53,7 @@ function ViewResponses() {
     const formKind0 = await getFormTemplatByNsec(nsec);
     setResponses(resp);
     setSelfSignedResponses(nonAnonymousResponses);
-    updateFormName(formKind0.name)
+    updateFormName(formKind0.name);
     if (!selectedFilter && formKind0.settings?.selfSignForms) {
       setDefaultFilter(ResponseFilters.selfSignedResponses);
     } else if (!selectedFilter) {
@@ -139,7 +140,9 @@ function ViewResponses() {
           />
         </div>
       ) : null}
-      {responses?.length && <Export responses={responses} userInfo={userInfo} formName={formName} />}
+      {responses?.length && (
+        <Export responses={responses} userInfo={userInfo} formName={formName} />
+      )}
       {responses?.length ? (
         <Card>
           <Analytics responses={getDisplayedResponses()} />
